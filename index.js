@@ -1,5 +1,6 @@
 const port = process.env.PORT || 3002;
 const express = require("express");
+const dataHolder = require("./cache");
 
 let app = express();
 
@@ -24,18 +25,23 @@ let app = express();
 // });
 
 app.get("/", async function (req, res) {
+  dataHolder.numberOfRequests++;
   res.send({
     status: "success",
+    numberOfRequests: dataHolder.numberOfRequests,
   });
 });
 
 app.get("/about", async function (req, res) {
-  res.send("this is about me...");
+  dataHolder.numberOfRequests++;
+  res.send({
+    message: "this is about me...",
+    numberOfRequests: dataHolder.numberOfRequests,
+  });
 });
 
 app.listen(port);
 
 console.log(`running on ${port}`);
-
 
 module.exports = app;
