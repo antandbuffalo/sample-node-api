@@ -1,0 +1,15 @@
+{
+  "dependencies": {
+    "express": "^4.18.2"
+  },
+  "name": "sample-node-api",
+  "version": "1.0.0",
+  "description": "hello world project for node api",
+  "main": "app.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "jeyabalaji",
+  "license": "ISC"
+}
