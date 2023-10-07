@@ -29,6 +29,10 @@ app.get("/", async function (req, res) {
   });
 });
 
+app.get("/about", async function (req, res) {
+  res.send("this is about me...");
+});
+
 app.listen(port);
 
 console.log(`running on ${port}`);
