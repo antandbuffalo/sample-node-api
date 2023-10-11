@@ -34,9 +34,23 @@ const validateGetPasscodeRequest = (request) => {
   return true;
 };
 
+const generateRandomNumber = (numberOfDigits) => {
+  let randomNumber = "";
+  let firstDigit = 0;
+  while (firstDigit === 0) {
+    firstDigit = Math.floor(Math.random() * 10);
+  }
+
+  for (let i = 0; i < numberOfDigits - 1; i++) {
+    randomNumber = `${randomNumber}${Math.floor(Math.random() * 10)}`;
+  }
+  return `${firstDigit}${randomNumber}`;
+};
+
 module.exports = {
   cleanQuickNoteRequest,
   validateQuickNoteRequest,
   validateQuickNoteSyncRequest,
   validateGetPasscodeRequest,
+  generateRandomNumber
 };

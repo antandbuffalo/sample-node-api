@@ -7,6 +7,7 @@ const {
   validateQuickNoteRequest,
   validateQuickNoteSyncRequest,
   validateGetPasscodeRequest,
+  generateRandomNumber,
 } = require("./util");
 
 let app = express();
@@ -44,6 +45,7 @@ app.get("/quicknote", function (req, res) {
     // save to cache
     res.statusCode = 200;
     res.send({
+      status: "success",
       text: dataHolder.quickNotes[req.query.id],
     });
   }
@@ -51,7 +53,7 @@ app.get("/quicknote", function (req, res) {
 
 app.post("/quicknote", jsonParser, function (req, res) {
   const cleanRequest = cleanQuickNoteRequest(req.body);
-
+  console.log(req.body);
   if (!validateQuickNoteRequest(cleanRequest)) {
     res.statusCode = 404;
     res.send({ status: "error", message: "id not found" });
@@ -59,7 +61,7 @@ app.post("/quicknote", jsonParser, function (req, res) {
     // save to cache
     dataHolder.quickNotes[cleanRequest.id] = cleanRequest.text;
     res.statusCode = 200;
-    res.send();
+    res.send({ status: "success" });
   }
 });
 
@@ -69,14 +71,14 @@ app.post("/quicknote/sync", jsonParser, function (req, res) {
     res.statusCode = 404;
     res.send({ status: "error", message: "id not found" });
   } else {
-    const passcode = Math.round(Math.random() * 10000);
+    const passcode = generateRandomNumber(8);
     dataHolder.quickNotesPasscodeMap[passcode] = req.body.id;
     if (req.body.text) {
       dataHolder.quickNotes[req.body.id] = req.body.text;
     }
 
     res.statusCode = 200;
-    res.send({ passcode });
+    res.send({ status: "success", passcode });
   }
 });
 
@@ -93,6 +95,7 @@ app.post("/quicknote/sync/validate", jsonParser, function (req, res) {
     if (tempId) {
       res.statusCode = 200;
       res.send({
+        status: "success",
         text: dataHolder.quickNotes[tempId],
         id: tempId,
       });
